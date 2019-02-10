@@ -68,6 +68,11 @@ module.exports = class ReloaderInjector {
 				}" ${attribute}></script>`, insertOptions)
 			});
 		}
+
+		Object.defineProperty(this, 'path', {
+			enumerable: true,
+			value: new URL(url, BASE_URL_ONLY_USED_FOR_PATHNAME_EXTRACTION).pathname
+		});
 	}
 };
 

@@ -47,7 +47,7 @@ const test = require('tape');
 			}
 		}
 
-		if (url.startsWith(isLegacy ? '/legacy' : '/sse')) {
+		if (url.startsWith(reloaderInjector.path)) {
 			sseRes = res;
 			return;
 		}
