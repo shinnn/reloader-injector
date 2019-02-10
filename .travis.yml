@@ -1,0 +1,19 @@
+if: branch !~ ^v\d
+language: node_js
+node_js: node
+cache: npm
+jobs:
+  include:
+  - dist: xenial
+    addons:
+      chrome: stable
+      firefox: latest
+    before_install:
+    - curl -sSLo tmp https://chromedriver.storage.googleapis.com/73.0.3683.20/chromedriver_linux64.zip
+    - unzip -q -d ~/bin tmp
+    - curl -sSL https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz | tar zxf - -C ~/bin
+    after_success: node_modules/.bin/nyc report > coverage.lcov && bash <(curl -s https://codecov.io/bash) -X gcov
+  - os: osx
+    osx_image: xcode10.1
+    before_script: sudo safaridriver --enable
+    script: SELENIUM_BROWSER=safari node test
